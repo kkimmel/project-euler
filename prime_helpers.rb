@@ -1,5 +1,8 @@
 class PrimeHelpers
-  # Implementation of the sieve of Eratosthenes
+  # Implementation of the Sieve of Eratosthenes - an ancient algorithm for
+  # finding all prime numbers up to a given limit. It works by iteratively
+  # marking the multiples of each prime as composite (not prime), starting
+  # from 2. The numbers that remain unmarked at the end are prime.
   def self.sieve(max)
     integers = Array.new(max - 2, true)
     primes   = []
