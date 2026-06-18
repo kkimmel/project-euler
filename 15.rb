@@ -6,32 +6,20 @@
 # move to the right and down, there are exactly 6 routes to the bottom
 # right corner. How many such routes are there through a 20x20 grid?
 #
-# Dynamic programming approach:
-#   Build a (n+1) x (n+1) grid where each cell represents the number of
-#   unique paths to reach that cell from the top-left corner.
+# Binomial coefficient approach:
+#   To traverse a 20x20 grid from top-left to bottom-right, you must make
+#   exactly 40 moves: 20 right (R) and 20 down (D).
 #
-#   Base cases:
-#     - Every cell in the first row can only be reached by moving right,
-#       so there is exactly 1 path to each of those cells.
-#     - Every cell in the first column can only be reached by moving down,
-#       so there is exactly 1 path to each of those cells.
+#   The number of unique routes is the number of ways to arrange 20 R's
+#   and 20 D's in a sequence of 40 moves, which is the binomial coefficient:
 #
-#   Recurrence:
-#     grid[i][j] = grid[i-1][j] + grid[i][j-1]
+#     C(2n, n) = (2n)! / (n! * n!)
 #
-#   The answer is grid[n][n].
+#   For n = 20: C(40, 20) = 40! / (20! * 20!)
 
-n    = 20
-grid = Array.new(n + 1) { Array.new(n + 1, 0) }
-
-# Base cases: one way to reach any cell in the first row or first column
-(0..n).each { |i| grid[0][i] = 1; grid[i][0] = 1 }
-
-# Fill the rest of the grid
-(1..n).each do |i|
-  (1..n).each do |j|
-    grid[i][j] = grid[i - 1][j] + grid[i][j - 1]
-  end
+def binomial(n, k)
+  (1..k).inject(1) { |result, i| result * (n - i + 1) / i }
 end
 
-puts "routes: #{grid[n][n]}"
+n = 20
+puts "routes: #{binomial(2 * n, n)}"
